@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Portfolio - Noah Smith</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" href="../css/index.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<script>
+
+</script>
+
+<body class="grey lighten-1">
+    <nav id="navbar" class="blue accent-2">
+        <div class="nav-wrapper">
+            <h5 class="grey-text text-lighten-5 left">Inaudible Goal</h5>
+            <ul id="nav" class="right hide-on-med-and-down">
+                <li>
+                    <a href="../index.html">Home</a>
+                </li>
+                <li>
+                    <a href="../media/Noah_Smith_resume.docx">My Resume</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div id="PhysicalComputing" class="row">
+            <div class="col s6 grey darken-2 grey-text text-lighten-4 center-align">
+                <img src="../media/PhysComputing-FinalProject.png" class="responsive-img">
+            </div>
+            <div class="col s6 grey darken-2 grey-text text-lighten-4 center-align">
+                <img src="../media/PhysComputing-Arduino_Active.jpg" class="responsive-img">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 grey darken-2 grey-text text-lighten-4 center-align">
+                <p>
+                    Inaudible Goal is my final project for my Physical Computing class: a class based entirely on embedded programming using
+                    an Arduino, along with multiple languages (Arduino [C/C++ based], Processing [Java based], and C#). The
+                    basis of the project was to showcase the lack of accessibility options in the games industry, especially
+                    in regards to deaf/hard of hearing people, which is what the project focuses on. The goal of the project
+                    was that by playing the game, the player would realize just how important accessibility options are in
+                    games. The basic gameplay was three levels that were of the same maze-like layout, and to progress the
+                    player has to find the goal in each level. But, the goal itself is very difficult to see as it is nearly
+                    transparent (hint: it is directly above the player [blue square] at the top of the maze in the gameplay
+                    image), yet the player is assisted by an audio cue that increases in pace when the player gets closer.
+                    The second level moves the goal and removes the audio cue (simulating deafness), making finding the goal
+                    exceedingly difficult. The third level moves the goal again, and this time provides an alternative cue:
+                    visual. More LEDs light up the closer gets to the goal. This project uses serial communication between
+                    an Arduino and the Unity game engine to pass data about player positioning from Unity to the Arduino.
+                    I wrote all of the code for both the Aruino and Unity game.
+                </p>
+                <p>
+                    This page is showcasing my final project and best work in the class, but the rest of my pysical computing work can be seen
+                    on
+                    <a href="https://nes9968igme470.wordpress.com/">my class blog</a>.
+                </p>
+                <h5>
+                    I made a completely digital version of this project to make it playable in a browser, available on
+                    <a href="https://noahsmith.itch.io/inaudible-goal">Itch.io</a>.
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 grey darken-2 grey-text text-lighten-4 center-align">
+                <img src="../media/PhysComputing-Gameplay.PNG" class="responsive-img">
+            </div>
+        </div>
+    </div>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
+</body>
+
+</html>

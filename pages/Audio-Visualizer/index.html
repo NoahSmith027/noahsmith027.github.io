@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Audio Visualizer</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body class="grey darken-1">
+    <div class="container">
+        <div class="center-align">
+            <canvas width="1280" height="720"></canvas>
+        </div>
+        <div id="controls" class="grey lighten-4">
+            <audio></audio>
+            <div class="row">
+                <h4>Song Controls:</h4>
+            </div>
+            <div class="row">
+                <section>
+                    <label>Track Selection
+                        <select id="trackSelect" name="tracks">
+                            <option value="media/Subnautica-AbandonShip.mp3">Abandon Ship</option>
+                            <option value="media/KingdomHearts3-DearlyBeloved.mp3">Dearly Beloved</option>
+                            <option value="media/Celeste-FirstSteps.mp3" selected>First Steps</option>
+                        </select>
+                    </label>
+                </section>
+            </div>
+            <div class="row">
+                <h6 class="col s2">Song Time:</h6>
+                <h6 id="songTime" class="col s1">???</h6>
+            </div>
+            <div class="row">
+                <h6 class="col s3">Song Duration (In Seconds):</h6>
+                <h6 id="songDuration" class="col s1">???</h6>
+            </div>
+            <div class="row">
+                <div class="col s2">
+                    <button class="waves-effect waves-light grey btn" id="playButton" data-playing="no">Play</button>
+                </div>
+                <div class="col s2">
+                    <button class="waves-effect waves-light grey btn" id="dayButton">Change Day Cycle</button>
+                </div>
+                <div class="switch col s2">
+                    <label>Lock Day Cycle:</label>
+                    <label>
+                        Off
+                        <input type="checkbox" id="lockDaySwitch">
+                        <span class="lever"></span>
+                        On
+                    </label>
+                </div>
+                <div class="col s2">
+                    <button class="waves-effect waves-light grey btn" id="fsButton">Fullscreen</button>
+                </div>
+            </div>
+            <div class="row">
+                <form action="#">
+                    <h6>Volume</h6>
+                    <p class="range-field">
+                        <input type="range" id="volumeSlider" min="0" max="100" value="20" />
+                    </p>
+                </form>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+                <h4>Audio Controls:</h4>
+            </div>
+            <div class="row">
+                <form action="#">
+                    <h6>Treble</h6>
+                    <p class="range-field">
+                        <input type="range" id="trebleSlider" min="0" max="100" value="0" />
+                    </p>
+                </form>
+            </div>
+            <div class="row">
+                <form action="#">
+                    <h6>Bass</h6>
+                    <p class="range-field">
+                        <input type="range" id="bassSlider" min="0" max="100" value="0" />
+                    </p>
+                </form>
+            </div>
+            <div class="divider"></div>
+            <div class="row">
+                <h4>Visual Controls:</h4>
+            </div>
+            <div class="row">
+                <label class="col s3">
+                    <input type="checkbox" id="invertCheck" />
+                    <span>Invert Colors</span>
+                </label>
+                <label class="col s3">
+                    <input type="checkbox" id="noiseCheck" />
+                    <span>Noise</span>
+                </label>
+                <label class="col s3">
+                    <input type="checkbox" id="sepiaCheck" />
+                    <span>Sepia Filter</span>
+                </label>
+            </div>
+            <div class="row">
+                <h6>Tints:</h6>
+                <label class="col s3">
+                    <input name="tintCheck" type="radio" checked />
+                    <span>None</span>
+                </label>
+                <label class="col s3">
+                    <input name="tintCheck" type="radio" id="tintRedCheck" />
+                    <span>Red</span>
+                </label>
+                <label class="col s3">
+                    <input name="tintCheck" type="radio" id="tintBlueCheck" />
+                    <span>Blue</span>
+                </label>
+                <label class="col s3">
+                    <input name="tintCheck" type="radio" id="tintGreenCheck" />
+                    <span>Green</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/loader.js"></script>
+</body>
+
+</html>

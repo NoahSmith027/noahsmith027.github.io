@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Haiku Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rita/1.3.89/rita-full.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background-color: darkslateblue;
+            color: whitesmoke;
+            font-size: 16pt;
+        }
+
+        hr {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Haiku Generator</h1>
+    <section>
+        <p id="line1"></p>
+        <hr>
+        <p id="line2"></p>
+        <hr>
+        <p id="line3"></p>
+    </section>
+    <button type="button" id="bAll">Generate a Random Haiku</button>
+    <p></p>
+    <button type="button" id="b1">Save the First Line</button>
+    <button type="button" id="b2">Save the Second Line</button>
+    <button type="button" id="b3">Save the Third Line</button>
+    <p></p>
+    <p>Choose what types of words can be used (at least one must be active)</p>
+    <button type="button" id="bNoun">Nouns</button>
+    <button type="button" id="bVerb">Verbs</button>
+    <button type="button" id="bAdj">Adjectives</button>
+    <button type="button" id="bAdv">Adverbs</button>
+    <button type="button" id="bPrep">Prepositions</button>
+    <button type="button" id="bDet">Determiners</button>
+    <button type="button" id="bInt">Interjections</button>
+    <p id="errorLine"></p>
+    <p></p>
+    <button type="button" id="bExport">Export For Manual Editing</button>
+    <button type="button" id="bImport">Import</button>
+    <p></p>
+    <textarea rows="10" cols="100" id="output"></textarea>
+
+    <script>
+
+        var saveLine1 = false;
+        var saveLine2 = false;
+        var saveLine3 = false;
+
+        var nounActive = false;
+        var verbActive = false;
+        var adjActive = false;
+        var advActive = false;
+        var prepActive = false;
+        var detActive = false;
+        var intActive = false;
+
+        var posChoice = "";
+
+        window.onload = getElements();
+        //window.onload = generateHaiku();
+        window.onload = buttonColor();
+
+        function getElements() {
+            let line1 = document.querySelector("#line1");
+            let line2 = document.querySelector("#line2");
+            let line3 = document.querySelector("#line3");
+            let buttonAll = document.querySelector("#bAll");
+            let button1 = document.querySelector("#b1");
+            let button2 = document.querySelector("#b2");
+            let button3 = document.querySelector("#b3");
+            buttonAll.addEventListener("click", generateHaiku);
+            button1.addEventListener("click", changeButton1);
+            button2.addEventListener("click", changeButton2);
+            button3.addEventListener("click", changeButton3);
+            let nounButton = document.querySelector("#bNoun");
+            let verbButton = document.querySelector("#bVerb");
+            let adjButton = document.querySelector("#bAdj");
+            let advButton = document.querySelector("#bAdv");
+            let prepButton = document.querySelector("#bPrep");
+            let detButton = document.querySelector("#bDet");
+            let intButton = document.querySelector("#bInt");
+            nounButton.addEventListener("click", changeButtonNoun);
+            verbButton.addEventListener("click", changeButtonVerb);
+            adjButton.addEventListener("click", changeButtonAdj);
+            advButton.addEventListener("click", changeButtonAdv);
+            prepButton.addEventListener("click", changeButtonPrep);
+            detButton.addEventListener("click", changeButtonDet);
+            intButton.addEventListener("click", changeButtonInt);
+            let errorLine = document.querySelector("#errorLine");
+            let exportButton = document.querySelector("#bExport");
+            exportButton.addEventListener("click", exportPoem);
+            let importButton = document.querySelector("#bImport");
+            importButton.addEventListener("click", importPoem)
+            let output = document.querySelector("#output");
+        }
+
+        function generateHaiku() {
+            let text = "";
+            let counter = 0;
+            let min = 1;
+            let max = 1;
+            let pos = "";
+
+            if (nounActive == true || verbActive == true || adjActive == true || advActive == true || prepActive == true
+                || detActive == true) {
+                errorLine.innerHTML = "";
+                for (i = 0; i < 3; i++) {
+                    if (i != 1) { // 5 syllables
+                        max = 5;
+                        counter = 0;
+                        do {
+                            let num = getRandom(min, max);
+                            pos = getPOS();
+                            let newText = RiTa.randomWord(pos, num);
+                            if (newText != "") {
+                                text += newText;
+                                counter += num;
+                                max -= num;
+                            }
+
+                            if (counter <= 5) { text += " " }
+                        }
+                        while (counter < 5);
+                    }
+                    else if (i == 1) { // 7 syllables
+                        max = 7;
+                        counter = 0;
+                        do {
+                            let num = getRandom(min, max);
+                            pos = getPOS();
+                            let newText = RiTa.randomWord(pos, num);
+                            if (newText != "") {
+                                text += newText;
+                                counter += num;
+                                max -= num;
+                            }
+
+                            if (counter <= 7) { text += " " }
+                        }
+                        while (counter < 7);
+                    }
+
+                    if (i == 0 && saveLine1 == false) { line1.innerHTML = text; }
+                    if (i == 1 && saveLine2 == false) { line2.innerHTML = text; }
+                    if (i == 2 && saveLine3 == false) { line3.innerHTML = text; }
+
+                    text = "";
+                }
+            }
+            else {
+                errorLine.innerHTML = "*Please choose at least one part of speech*"
+            }
+
+        }
+
+        function getRandom(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function getPOS() {
+            let counter = 0;
+            let posList = new Array();
+
+            if (nounActive == true) {
+                counter += 2;
+                posList.push("nn");
+                posList.push("nns");
+            }
+            if (verbActive == true) {
+                counter += 6;
+                posList.push("vb");
+                posList.push("vbd");
+                posList.push("vbg");
+                posList.push("vbn");
+                posList.push("vbp");
+                posList.push("vbz");
+            }
+            if (adjActive == true) {
+                counter += 3;
+                posList.push("jj");
+                posList.push("jjr");
+                posList.push("jjs");
+            }
+            if (advActive == true) {
+                counter += 3;
+                posList.push("rb");
+                posList.push("rbs");
+                posList.push("rbr");
+            }
+            if (prepActive == true) {
+                counter += 1;
+                posList.push("in");
+            }
+            if (detActive == true) {
+                counter += 1;
+                posList.push("dt");
+            }
+            if (intActive == true) {
+                counter += 1;
+                posList.push("uh");
+            }
+
+            let num = getRandom(0, counter);
+
+            return posList[num];
+        }
+
+        function exportPoem() {
+            let tempString = "";
+            output.value = "";
+            tempString = line1.innerHTML.replace("  ", " ");
+            tempString = line1.innerHTML.replace("   ", " ");
+            output.value += line1.innerHTML.trim();
+            output.value += "\n";
+            tempString = line2.innerHTML.replace("  ", " ");
+            tempString = line2.innerHTML.replace("   ", " ");
+            output.value += line2.innerHTML.trim();
+            output.value += "\n";
+            tempString = line3.innerHTML.replace("  ", " ");
+            tempString = line3.innerHTML.replace("   ", " ");
+            output.value += line3.innerHTML.trim();
+            output.value.trim();
+        }
+
+        function importPoem() {
+            saveLine1 = false;
+            saveLine2 = false;
+            saveLine3 = false;
+            buttonColor();
+            if (output.value != "") {
+                let poemArray = output.value.split("\n");
+                line1.innerHTML = poemArray[0];
+                line2.innerHTML = poemArray[1];
+                line3.innerHTML = poemArray[2];
+            }
+            else if (output.value == "") {
+                line1.innerHTML = "";
+                line2.innerHTML = "";
+                line3.innerHTML = "";
+            }
+        }
+
+        function buttonColor() {
+            // Line save buttons
+            if (saveLine1 == true) {
+                document.getElementById("b1").style.backgroundColor = "darkslateblue";
+                document.getElementById("b1").style.color = "whitesmoke";
+                document.getElementById("b1").innerHTML = "First Line Saved";
+            }
+            else if (saveLine1 == false) {
+                document.getElementById("b1").style.backgroundColor = "whitesmoke";
+                document.getElementById("b1").style.color = "black";
+                document.getElementById("b1").innerHTML = "Save the First Line";
+            }
+
+            if (saveLine2 == true) {
+                document.getElementById("b2").style.backgroundColor = "darkslateblue";
+                document.getElementById("b2").style.color = "whitesmoke";
+                document.getElementById("b2").innerHTML = "Second Line Saved";
+            }
+            else if (saveLine2 == false) {
+                document.getElementById("b2").style.backgroundColor = "whitesmoke";
+                document.getElementById("b2").style.color = "black";
+                document.getElementById("b2").innerHTML = "Save the Second Line";
+            }
+
+            if (saveLine3 == true) {
+                document.getElementById("b3").style.backgroundColor = "darkslateblue";
+                document.getElementById("b3").style.color = "whitesmoke";
+                document.getElementById("b3").innerHTML = "Third Line Saved";
+            }
+            else if (saveLine3 == false) {
+                document.getElementById("b3").style.backgroundColor = "whitesmoke";
+                document.getElementById("b3").style.color = "black";
+                document.getElementById("b3").innerHTML = "Save the Third Line";
+            }
+
+            // Active pos buttons
+            if (nounActive == true) {
+                document.getElementById("bNoun").style.backgroundColor = "darkslateblue";
+                document.getElementById("bNoun").style.color = "whitesmoke";
+            }
+            else if (nounActive == false) {
+                document.getElementById("bNoun").style.backgroundColor = "whitesmoke";
+                document.getElementById("bNoun").style.color = "black";
+            }
+
+            if (verbActive == true) {
+                document.getElementById("bVerb").style.backgroundColor = "darkslateblue";
+                document.getElementById("bVerb").style.color = "whitesmoke";
+            }
+            else if (verbActive == false) {
+                document.getElementById("bVerb").style.backgroundColor = "whitesmoke";
+                document.getElementById("bVerb").style.color = "black";
+            }
+
+            if (adjActive == true) {
+                document.getElementById("bAdj").style.backgroundColor = "darkslateblue";
+                document.getElementById("bAdj").style.color = "whitesmoke";
+            }
+            else if (adjActive == false) {
+                document.getElementById("bAdj").style.backgroundColor = "whitesmoke";
+                document.getElementById("bAdj").style.color = "black";
+            }
+
+            if (advActive == true) {
+                document.getElementById("bAdv").style.backgroundColor = "darkslateblue";
+                document.getElementById("bAdv").style.color = "whitesmoke";
+            }
+            else if (advActive == false) {
+                document.getElementById("bAdv").style.backgroundColor = "whitesmoke";
+                document.getElementById("bAdv").style.color = "black";
+            }
+
+            if (prepActive == true) {
+                document.getElementById("bPrep").style.backgroundColor = "darkslateblue";
+                document.getElementById("bPrep").style.color = "whitesmoke";
+            }
+            else if (prepActive == false) {
+                document.getElementById("bPrep").style.backgroundColor = "whitesmoke";
+                document.getElementById("bPrep").style.color = "black";
+            }
+
+            if (detActive == true) {
+                document.getElementById("bDet").style.backgroundColor = "darkslateblue";
+                document.getElementById("bDet").style.color = "whitesmoke";
+            }
+            else if (detActive == false) {
+                document.getElementById("bDet").style.backgroundColor = "whitesmoke";
+                document.getElementById("bDet").style.color = "black";
+            }
+
+            if (intActive == true) {
+                document.getElementById("bInt").style.backgroundColor = "darkslateblue";
+                document.getElementById("bInt").style.color = "whitesmoke";
+            }
+            else if (intActive == false) {
+                document.getElementById("bInt").style.backgroundColor = "whitesmoke";
+                document.getElementById("bInt").style.color = "black";
+            }
+        }
+
+        function changeButton1() {
+            if (saveLine1 == false) { saveLine1 = true }
+            else if (saveLine1 == true) { saveLine1 = false }
+            buttonColor();
+        }
+
+        function changeButton2() {
+            if (saveLine2 == false) { saveLine2 = true }
+            else if (saveLine2 == true) { saveLine2 = false }
+            buttonColor();
+        }
+
+        function changeButton3() {
+            if (saveLine3 == false) { saveLine3 = true }
+            else if (saveLine3 == true) { saveLine3 = false }
+            buttonColor();
+        }
+
+        function changeButtonNoun() {
+            if (nounActive == false) { nounActive = true }
+            else if (nounActive == true) { nounActive = false }
+            buttonColor();
+        }
+
+        function changeButtonVerb() {
+            if (verbActive == false) { verbActive = true }
+            else if (verbActive == true) { verbActive = false }
+            buttonColor();
+        }
+
+        function changeButtonAdj() {
+            if (adjActive == false) { adjActive = true }
+            else if (adjActive == true) { adjActive = false }
+            buttonColor();
+        }
+
+        function changeButtonAdv() {
+            if (advActive == false) { advActive = true }
+            else if (advActive == true) { advActive = false }
+            buttonColor();
+        }
+
+        function changeButtonPrep() {
+            if (prepActive == false) { prepActive = true }
+            else if (prepActive == true) { prepActive = false }
+            buttonColor();
+        }
+
+        function changeButtonDet() {
+            if (detActive == false) { detActive = true }
+            else if (detActive == true) { detActive = false }
+            buttonColor();
+        }
+
+        function changeButtonInt() {
+            if (intActive == false) { intActive = true }
+            else if (intActive == true) { intActive = false }
+            buttonColor();
+        }
+
+
+    </script>
+</body>
+
+</html>
